@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "cowsandbulls-eddc9": {
+      "hosting": {
+        "CowsAndBulls": [
+          "cowsandbulls-eddc9"
+        ]
+      }
+    }
+  }
+}

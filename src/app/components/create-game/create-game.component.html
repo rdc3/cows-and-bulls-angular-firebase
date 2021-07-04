@@ -1,0 +1,59 @@
+<!-- <mat-grid-list cols="5">
+    <mat-grid-tile [colspan]="5"> -->
+<div class="card-container">
+    <div class="mat-card-background">
+        <form class="example-form" [formGroup]="gameFormGroup">
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <mat-card-title>Create Game</mat-card-title>
+                    <mat-card-subtitle>Mooooooooooooo</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="../../../assets/bulls_and_cows.png" alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>
+                        Welcome to Cows & bulls game. Lets start by creating a new game
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <mat-form-field class="example-form-field" appearance="fill">
+                        <mat-label>Enter the time limit per round in minutes</mat-label>
+                        <input formControlName="maxTimeFormControl" matInput type="text" [errorStateMatcher]="matcher">
+                        <mat-error *ngIf="maxTimeFormControl.errors">
+                            Please enter a number more than 0
+                        </mat-error>
+                        <mat-icon matSuffix mat-icon-button aria-label="Clear" (click)="maxTimeFormControl.setValue(1)"
+                            class="cross-icon">close</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-form-field" appearance="fill">
+                        <mat-label>Enter the number of rounds to play</mat-label>
+                        <input formControlName="maxRoundsFormControl" matInput type="text"
+                            [errorStateMatcher]="matcher">
+                        <mat-error *ngIf="maxRoundsFormControl.errors">
+                            Please enter a number more than 0
+                        </mat-error>
+                        <mat-icon matSuffix mat-icon-button aria-label="Clear"
+                            (click)="maxRoundsFormControl.setValue(1)" class="cross-icon">close</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-form-field" appearance="fill">
+                        <mat-label>Enter the max number of guesses allowed</mat-label>
+                        <input formControlName="maxWordsFormControl" matInput type="text" [errorStateMatcher]="matcher">
+                        <mat-error *ngIf="maxWordsFormControl.errors">
+                            Please enter a number more than 0
+                        </mat-error>
+                        <mat-icon matSuffix mat-icon-button aria-label="Clear" (click)="maxWordsFormControl.setValue(1)"
+                            class="cross-icon">close</mat-icon>
+                    </mat-form-field>
+
+                    <button [disabled]="!gameFormGroup.valid" (click)="createGame()" mat-raised-button
+                        color="primary">Create Game</button>
+                    <button mat-raised-button color="Accent">How to play</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </div>
+</div>
+<!-- </mat-grid-tile>
+</mat-grid-list> -->

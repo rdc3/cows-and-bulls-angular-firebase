@@ -1,0 +1,23 @@
+<form class="example-form" (keydown.enter)="$event.preventDefault()">
+    <div>
+        <mat-form-field *ngIf="(!WaitingForNextWord && !myTurn) || (WaitingForNextWord && myTurn)"
+            class="example-form-field" appearance="fill">
+            <mat-label>{{placeholderText}}</mat-label>
+            <input [formControl]="guessWordFormControl" matInput type="text" [errorStateMatcher]="matcher" #input
+                (keydown.enter)="submit()">
+            <mat-error *ngIf="guessWordFormControl.errors">
+                {{errorMessage}}
+            </mat-error>
+            <button *ngIf="guessWordFormControl.value" matSuffix mat-icon-button aria-label="Clear"
+                (click)="guessWordFormControl.patchValue('')">
+                <mat-icon>close</mat-icon>
+            </button>
+            <button *ngIf="guessWordFormControl.value && !guessWordFormControl.errors" matSuffix mat-icon-button
+                aria-label="Clear" (click)="submit()">
+                <mat-icon>send</mat-icon>
+            </button>
+        </mat-form-field>
+        <h3 class="mat-headline" *ngIf="WaitingForNextWord">{{subScript}}</h3>
+    </div>
+
+</form>

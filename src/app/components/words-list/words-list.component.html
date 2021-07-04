@@ -1,0 +1,13 @@
+<!-- <div> -->
+
+<!-- { id: id++, word: guess, player: p.name, cows: 0, bulls: 0 } -->
+<div class="hot">
+    <hot-table class="ht" [hotId]="id" [settings]="settings">
+        <!-- <hot-column data="id" [readOnly]="true" title="ID"></hot-column> -->
+        <hot-column [editor]="false" data="word" title="Guess"></hot-column>
+        <hot-column [editor]="false" data="player" title="Player"></hot-column>
+        <hot-column [editor]="false" data="cows" title="Cows"></hot-column>
+        <hot-column [editor]="false" data="bulls" title="Bulls"></hot-column>
+    </hot-table>
+</div>
+<!-- </div> -->

@@ -1,0 +1,39 @@
+<mat-grid-list cols="5">
+    <mat-grid-tile [colspan]="3">
+        <div>
+            <form class="example-form" [formGroup]="gameFormGroup" (keydown.enter)="$event.preventDefault()">
+                <mat-form-field class="example-form-field" appearance="fill">
+                    <mat-label>Enter your nick name to join the game</mat-label>
+                    <input formControlName="nameFormControl" matInput type="text" [errorStateMatcher]="matcher" #input
+                        (keydown.enter)="update()">
+                    <mat-error *ngIf="nameFormControl.hasError('required')">
+                        Please enter a non empty name
+                    </mat-error>
+                    <mat-error *ngIf="nameFormControl.errors?.forbiddenName">
+                        Nick name is already used by a different player. Please enter a different nick name.
+                    </mat-error>
+                    <button *ngIf="nameFormControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="nameFormControl.patchValue('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <!-- <mat-icon *ngIf="nameFormControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="nameFormControl.setValue('')" class="cross-icon">close</mat-icon> -->
+                    <button *ngIf="nameFormControl.value && !nameFormControl.errors" matSuffix mat-icon-button
+                        aria-label="Clear" (click)="update()">
+                        <mat-icon>send</mat-icon>
+                    </button>
+                </mat-form-field>
+                <mat-error *ngIf="player.isModerator">
+                    Please wait for all the players to join before starting the game.
+                </mat-error>
+                <br />
+                <button *ngIf="player.isModerator" mat-raised-button color="primary" (click)="startGame()">
+                    Start Game
+                </button>
+            </form>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="2">
+        <app-players-list></app-players-list>
+    </mat-grid-tile>
+</mat-grid-list>

@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~handsontable/dist/handsontable.full.css";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: lightgray;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  overflow-y: scroll;
+  background: grey;
+  box-shadow: inset 0 0 4px #3367d6;
+}
+::-webkit-sc
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #adadad;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  // background: rgba(0, 0, 0, 0.15);
+  // border-radius: 10px;
+  background: #29b5e8;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5e5e5e;
+}

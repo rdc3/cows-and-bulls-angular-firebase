@@ -7,6 +7,7 @@ This Multi player game is generated with [Angular CLI](https://github.com/angula
 ---
 
 Demo : [GitHub Pages](https://rdc3.github.io/cows-and-bulls-angular-firebase/)
+Instrunctions: [How To Play](https://github.com/rdc3/cows-and-bulls-angular-firebase/blob/main/HowToPlay.md)
 
 ---
 

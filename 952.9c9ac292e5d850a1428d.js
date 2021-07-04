@@ -1,0 +1,1 @@
+(self.webpackChunkcows_and_bulls=self.webpackChunkcows_and_bulls||[]).push([[952],{1952:(s,l,u)=>{"use strict";u.r(l),u(6423)}}]);

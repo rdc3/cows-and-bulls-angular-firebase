@@ -17,7 +17,7 @@ export class GameService {
   public myTurn = false;
   public players: Player[] = [];
   constructor(private db: DbService, private navigator: NavigatorService) {
-    this.player.name = localStorage.getItem(Consts.localStorage_player) || `player${Math.random()}`;
+    this.player.name = localStorage.getItem(Consts.localStorage_player) || `player${Math.round(Math.random() * 100)}`;
     this.player.isModerator = localStorage.getItem(Consts.localStorage_isModerator) === 'true' || false;
     console.log('this.player.isModerator', this.player.isModerator, localStorage.getItem(Consts.localStorage_isModerator));
     if (localStorage.getItem(Consts.localStorage_isModerator) === undefined) {

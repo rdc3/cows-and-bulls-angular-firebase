@@ -2,11 +2,11 @@
 
 ![Cows And Bulls](./src/assets/bulls_and_cows.png)
 
-This Multi player game generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.0.
+This Multi player game is generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.0.
 
 ---
 
-##Demo : [GitHub Pages](https://rdc3.github.io/cows-and-bulls-angular-firebase/)
+Demo : [GitHub Pages](https://rdc3.github.io/cows-and-bulls-angular-firebase/)
 
 ---
 

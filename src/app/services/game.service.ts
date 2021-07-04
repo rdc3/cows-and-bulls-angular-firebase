@@ -43,6 +43,7 @@ export class GameService {
       let playerInDb: Player | undefined = players.find(p => this.player.name === p.name)
       // console.log('player form db:', playerInDb, this.player);
       this.player.id = playerInDb?.id;
+      this.player.guesses = playerInDb?.guesses || [];
       if (this.game) {
         this.myTurn = this.game.round?.turn?.id === playerInDb?.id;
         console.log('my turn:', this.myTurn);

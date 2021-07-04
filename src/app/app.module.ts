@@ -25,6 +25,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HotTableModule } from '@handsontable/angular';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -48,7 +49,7 @@ import { HotTableModule } from '@handsontable/angular';
     ReactiveFormsModule,
     FlexLayoutModule,
     HotTableModule.forRoot(),
-    MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, MatInputModule, MatGridListModule, MatTableModule, MatButtonModule
+    MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, MatInputModule, MatGridListModule, MatTableModule, MatButtonModule, MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

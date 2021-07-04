@@ -1,11 +1,11 @@
+import { NotifierService } from './../../services/notifier.service';
 import { PointsService } from './../../services/points.service';
 import { GameService } from 'src/app/services/game.service';
 import { Component, OnInit } from '@angular/core';
 import Handsontable from 'handsontable';
 import { HotTableRegisterer } from '@handsontable/angular';
 import { GameLogicService } from 'src/app/services/game-logic.service';
-import { Game, Player } from 'src/app/models/types';
-import { combineLatest } from 'rxjs';
+import { Player } from 'src/app/models/types';
 
 @Component({
   selector: 'app-words-list',
@@ -26,7 +26,8 @@ export class WordsListComponent implements OnInit {
     colHeaders: true,
     rowHeaders: true,
   }
-  constructor(private gameService: GameService, private gameLogicService: GameLogicService, private pointsService: PointsService) {
+  constructor(private gameService: GameService, private gameLogicService: GameLogicService, private pointsService: PointsService,
+    private notifier: NotifierService) {
     this.gameService.players$.subscribe(players => {
       console.log('update from Game service :', players);
       this.updateUI(players);
@@ -47,6 +48,9 @@ export class WordsListComponent implements OnInit {
     players.map(p => {
       p.guesses.map(guess => {
         const result = this.gameLogicService.checkWord(guess)
+        if (result.bulls === 4) {
+          this.notifier.popup(`${p.name} guessed ${this.gameService.game.round.word}`, 'Correct Guess')
+        }
         this.dataset.push({ id: id++, word: guess, player: p.name, cows: result.cows, bulls: result.bulls })
         console.log('In words ui update', this.dataset);
         this.hotRegisterer.getInstance(this.id)?.loadData(this.dataset);

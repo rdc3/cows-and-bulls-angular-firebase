@@ -1,15 +1,23 @@
 .example-form {
-  // width: 200px
   min-width: 150px;
   max-width: 500px;
   width: 100%;
   color: darkslateblue;
-  padding: 20px 5px;
+  padding: 3px 3px;
 }
 
+.card-container {
+  // height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .example-form-field {
   width: 100%;
 }
 .cross-icon {
   cursor: pointer;
+}
+.example-card {
+  max-width: 800px;
 }

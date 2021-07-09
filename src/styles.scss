@@ -40,11 +40,11 @@ body {
 }
 .card-container {
   // height: 80vh;
-  margin-top: 30px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // margin-top: 30px;
+  margin: 10px;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
 }
 .example-header-image {
   background-image: url("./assets/cow2.png");
@@ -72,4 +72,43 @@ body {
 }
 .link {
   cursor: pointer;
+}
+
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+  padding-right: 10px;
+}
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+  padding-left: 10px;
+}
+.mat-header-cell {
+  background-color: #f0f0f0;
+}
+.mat-header-cell,
+.mat-cell {
+  padding: 5px !important;
+  color: rgba(0, 0, 0, 0.54);
+  border-right: 1px solid #ccc !important;
+}
+mat-row,
+mat-header-row,
+mat-footer-row,
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+  border-right-color: rgba(0, 0, 0, 0.12) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+tr.mat-header-row {
+  height: 15px;
+}
+tr.mat-row,
+tr.mat-footer-row {
+  height: 15px;
+}
+.mat-table {
+  font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif !important;
 }

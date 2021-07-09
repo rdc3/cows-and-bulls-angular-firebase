@@ -1,13 +1,27 @@
 <!-- <div> -->
 
-<!-- { id: id++, word: guess, player: p.name, cows: 0, bulls: 0 } -->
-<div class="hot">
-    <hot-table class="ht" [hotId]="id" [settings]="settings">
-        <!-- <hot-column data="id" [readOnly]="true" title="ID"></hot-column> -->
-        <hot-column [editor]="false" data="word" title="Guess"></hot-column>
-        <hot-column [editor]="false" data="player" title="Player"></hot-column>
-        <hot-column [editor]="false" data="cows" title="Cows"></hot-column>
-        <hot-column [editor]="false" data="bulls" title="Bulls"></hot-column>
-    </hot-table>
-</div>
+<table mat-table [dataSource]="dataset" class="mat-elevation-z1 player-table">
+
+    <ng-container matColumnDef="word">
+        <th mat-header-cell *matHeaderCellDef> Guess </th>
+        <td mat-cell *matCellDef="let element"> {{element.word}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="player">
+        <th mat-header-cell *matHeaderCellDef> Player </th>
+        <td mat-cell *matCellDef="let element"> {{element.player}} </td>
+    </ng-container>
+    <ng-container matColumnDef="cows">
+        <th mat-header-cell *matHeaderCellDef> Cows </th>
+        <td mat-cell *matCellDef="let element"> {{element.cows}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bulls">
+        <th mat-header-cell *matHeaderCellDef> Bulls </th>
+        <td mat-cell *matCellDef="let element"> {{element.bulls}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
 <!-- </div> -->

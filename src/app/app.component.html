@@ -1,21 +1,79 @@
-<mat-toolbar color="primary">
-  <mat-icon style="margin-right:15px">track_changes</mat-icon>
-  <span matripple="" class="mat-ripple mat-button-ripple"></span>
-  <span class="link" (click)="navigateHome()">Cows and Bulls</span>
-  <span fxFlex></span>
-  <a class="link" mat-raised-button color="warn"
-    href="https://github.com/rdc3/cows-and-bulls-angular-firebase/blob/main/HowToPlay.md">
-    How to Play
-    <mat-icon>info</mat-icon>
-  </a>
+<!-- <div fxLayout="row">
+  <mat-toolbar fxFlexFill color="primary">
+    <mat-icon style="margin-right:15px">track_changes</mat-icon>
+    <span matripple="" class="mat-ripple mat-button-ripple"></span>
+    <span class="link" (click)="navigateHome()">Cows and Bulls</span>
+    <span fxFlex></span>
+    <a class="link" mat-raised-button color="primary"
+      href="https://github.com/rdc3/cows-and-bulls-angular-firebase/blob/main/HowToPlay.md">
+      How to Play
+      <mat-icon>info</mat-icon>
+    </a>
 
-  <span fxFlex></span>
-  <span>Welcome {{playername}}</span>
-  <mat-icon class="seperator">horizontal_rule</mat-icon>
-  <button mat-icon-button (click)="logout()">
-    <mat-icon>logout</mat-icon>
-  </button>
-</mat-toolbar>
-<div class="body-container">
-  <router-outlet></router-outlet>
+    <span fxFlex></span>
+    <span>Welcome {{playername}}</span>
+    <mat-icon class="seperator">horizontal_rule</mat-icon>
+    <button mat-icon-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div class="body-container">
+    <router-outlet></router-outlet>
+  </div>
+</div> -->
+<div style="height: 95vh;">
+
+  <mat-toolbar color="primary">
+
+    <div style="line-height: 0px;" fxShow="true" fxHide.gt-sm="true">
+      <mat-icon class="link" (click)="sidenav.toggle()">menu</mat-icon>
+    </div>
+
+    <div style="line-height: 0px;" fxShow="false" fxHide.gt-sm="false">
+      <mat-icon style="margin-right:15px">track_changes</mat-icon>
+    </div>
+
+    <span class="link" style="margin-left:15px" (click)="navigateHome()">Cows and Bulls</span>
+
+    <span fxFlex></span>
+
+    <div fxShow="true" fxHide.lt-md="true">
+      <a class="link" mat-raised-button color="primary"
+        href="https://github.com/rdc3/cows-and-bulls-angular-firebase/blob/main/HowToPlay.md">
+        How to Play
+        <mat-icon>info</mat-icon>
+      </a>
+    </div>
+
+    <span fxFlex></span>
+
+    <div fxShow="false" fxHide.gt-sm="false">
+      <span>Welcome {{playername}}</span>
+      <mat-icon class="seperator">horizontal_rule</mat-icon>
+    </div>
+
+    <mat-icon (click)="logout()">logout</mat-icon>
+
+  </mat-toolbar>
+
+  <mat-sidenav-container fxFlexFill class="example-container">
+
+    <mat-sidenav #sidenav fxLayout="column">
+      <div fxLayout="column">
+        <span fxFlex></span>
+        <!-- <a (click)="sidenav.toggle()" href="#" mat-button>Close</a> -->
+        <a class="link" mat-raised-button color="primary"
+          href="https://github.com/rdc3/cows-and-bulls-angular-firebase/blob/main/HowToPlay.md">
+          How to Play
+          <mat-icon>info</mat-icon>
+        </a>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content fxFlexFill>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
 </div>

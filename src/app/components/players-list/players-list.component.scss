@@ -1,38 +1,7 @@
 .player-table {
   width: 100%;
 }
-
-.mat-column-player {
-  border-right: 1px solid currentColor;
-  padding-right: 24px;
-  text-align: center;
-}
-
-.mat-column-points {
-  width: 32px;
-  padding-left: 16px;
-  //   font-size: 20px;
-}
-
-.mat-column-player-weight {
-  font-style: italic;
-}
-
-.mat-column-player-symbol {
-  width: 32px;
-  text-align: center;
-  font-weight: bold;
-}
-.mat-table {
-  background-color: transparent !important;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 3px;
-  border-top-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-table tr:last-child td /*To remove the last border*/ {
-  border-bottom: 0 solid;
+tr.mat-header-row,
+tr.mat-row {
+  height: 20px;
 }

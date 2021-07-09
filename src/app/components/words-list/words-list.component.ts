@@ -15,12 +15,13 @@ import { Player } from 'src/app/models/types';
 export class WordsListComponent implements OnInit {
   private hotRegisterer = new HotTableRegisterer();
 
+  public displayedColumns: string[] = ['word', 'player', 'cows', 'bulls'];
   dataset: any[] = [];
   id = 'hotInstance';
   settings: Handsontable.GridSettings = {
     licenseKey: "non-commercial-and-evaluation",
     data: Handsontable.helper.createSpreadsheetData(1, 4),
-    height: '50vh',
+    // height: '50vh',
     width: '50vw',
     stretchH: 'all',
     colHeaders: true,

@@ -26,6 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HotTableModule } from '@handsontable/angular';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSidenavModule } from '@angular/material/sidenav'
 
 
 @NgModule({
@@ -49,7 +50,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ReactiveFormsModule,
     FlexLayoutModule,
     HotTableModule.forRoot(),
-    MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, MatInputModule, MatGridListModule, MatTableModule, MatButtonModule, MatSnackBarModule
+    MatToolbarModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatGridListModule,
+    MatTableModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]

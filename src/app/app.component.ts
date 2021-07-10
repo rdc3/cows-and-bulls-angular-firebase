@@ -15,6 +15,8 @@ export class AppComponent {
   constructor(private gameService: GameService, private navigator: NavigatorService) {
     this.gameService.players$.subscribe(p => {
       this.playername = this.gameService.player.name;
+    });
+    this.gameService.game$.subscribe(p => {
       this.addedInGame = this.gameService.addedInGame;
     });
   }

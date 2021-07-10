@@ -26,6 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav'
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    HttpClientModule,
     MatToolbarModule,
     MatIconModule,
     MatCardModule,

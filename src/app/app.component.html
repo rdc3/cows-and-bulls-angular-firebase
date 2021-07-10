@@ -26,10 +26,10 @@
 
     <div fxShow="false" fxHide.gt-sm="false">
       <span>Welcome {{playername}}</span>
-      <mat-icon class="seperator">horizontal_rule</mat-icon>
+      <mat-icon *ngIf="addedInGame" class="seperator">horizontal_rule</mat-icon>
     </div>
 
-    <mat-icon (click)="logout()">logout</mat-icon>
+    <mat-icon *ngIf="addedInGame" (click)="logout()">logout</mat-icon>
 
   </mat-toolbar>
 

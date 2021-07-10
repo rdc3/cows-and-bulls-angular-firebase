@@ -1,7 +1,8 @@
+import { WordlistService } from './../../services/wordlist.service';
 import { GameService } from './../../services/game.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Game, GameState, Player } from 'src/app/models/types';
+import { GameState, Player } from 'src/app/models/types';
 import { MyErrorStateMatcher as ErrorStateMatcher } from 'src/app/common/formValidationLib';
 import { Consts } from 'src/app/models/consts';
 
@@ -23,13 +24,13 @@ export class GuessInputComponent implements OnInit {
   public placeholderText = 'Enter a 4 letter word';
   public subScript = 'Please enter a 4 letter word';
   public errorMessage = '';
-  guessWordFormControl = new FormControl('', [
+  public guessWordFormControl = new FormControl('', [
     Validators.required,
     this.guessedWordValidator()
   ]);
 
   matcher = new ErrorStateMatcher();
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private wordlistService: WordlistService) {
     this.protagonist!.name = 'a player';
     this.gameService.players$.subscribe(p => {
       this.players = p;
@@ -54,7 +55,8 @@ export class GuessInputComponent implements OnInit {
     this.players = this.gameService.players;
     this.player = this.gameService.player;
     console.log('protogonist1 :', this.protagonist, this.player, this.myTurn, this.WaitingForNextWord)
-    this.subScript = (this.myTurn) ? 'Enter a 4 letter word for others to guess' : `Waiting for ${this.protagonist!.name} to provide a word for guessing`
+    this.subScript = (this.myTurn) ? 'Enter a 4 letter word for others to guess'
+      : (this.protagonist) ? `Waiting for ${this.protagonist!.name} to provide a word for guessing` : 'Waiting!!!'
 
   }
 
@@ -71,6 +73,7 @@ export class GuessInputComponent implements OnInit {
     if (this.guessWordFormControl.valid) {
       localStorage.setItem(Consts.localStorage_roundStartedAt, new Date().valueOf().toString())
       this.gameService.setNextWord(this.guessWordFormControl.value).subscribe();
+      this.guessWordFormControl.reset();
     }
   }
 
@@ -78,12 +81,14 @@ export class GuessInputComponent implements OnInit {
     return (control: AbstractControl): ValidationErrors | null => {
       this.errorMessage = '';
       let forbidden = control.value?.length != 4;
-      if (forbidden) this.errorMessage = `Please enter a 4 letter word.`;
       const repeatedLetter = control.value?.split("").some((v: any, i: number, a: string[]) => { return a.lastIndexOf(v) != i; });
       const repeatedWord = (!this.myTurn) ? (this.players.map(player => player.guesses.some(guess => guess === control.value)).filter(v => v).length > 0) : false;
+      const notInDictionary = !this.wordlistService.isValidWord(control.value);
+      if (notInDictionary) this.errorMessage = `Try a valid word.`;
       if (repeatedWord) this.errorMessage = `Someone already tried "${control.value}".`;
-      forbidden = forbidden || repeatedLetter || repeatedWord;
       if (repeatedLetter) this.errorMessage = `Letters cannot be repeated.`;
+      if (forbidden) this.errorMessage = `Please enter a 4 letter word.`;
+      forbidden = forbidden || repeatedLetter || repeatedWord || notInDictionary;
       return forbidden ? { forbiddenName: { value: control.value } } : null;
     };
   }

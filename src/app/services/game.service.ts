@@ -4,8 +4,6 @@ import { Game, GameState, Player } from '../models/types';
 import { Consts } from '../models/consts';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { NavigatorService } from './navigator.service';
-import * as _ from 'lodash';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +14,8 @@ export class GameService {
   public game$: Subject<Game> = new Subject();
   public myTurn = false;
   public players: Player[] = [];
+  public wordlist: any;
+  public addedInGame = false;
   constructor(private db: DbService, private navigator: NavigatorService) {
     this.player.name = localStorage.getItem(Consts.localStorage_player) || `player${Math.round(Math.random() * 100)}`;
     this.player.isModerator = localStorage.getItem(Consts.localStorage_isModerator) === 'true' || false;
@@ -43,6 +43,7 @@ export class GameService {
       let playerInDb: Player | undefined = players.find(p => this.player.name === p.name)
       // console.log('player form db:', playerInDb, this.player);
       this.player.id = playerInDb?.id;
+      this.addedInGame = (playerInDb?.id) ? true : false;
       this.player.guesses = playerInDb?.guesses || [];
       if (this.game) {
         this.myTurn = this.game.round?.turn?.id === playerInDb?.id;

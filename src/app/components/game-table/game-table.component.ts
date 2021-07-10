@@ -14,6 +14,7 @@ export class GameTableComponent {
   public title = 'Almost there';
   public subtitle = 'Waiting for other players to join the game.';
   public myTurn = false;
+  public addedInGame = false;
   round = 'Round 0';
 
   constructor(private gameService: GameService) {
@@ -24,7 +25,9 @@ export class GameTableComponent {
     });
   }
   private setlocals(game: Game) {
+    console.log('in setlocals:', this.gameService.addedInGame)
     console.log('in setlocals:', game)
+    this.addedInGame = this.gameService.addedInGame;
     this.round = `Round ${game.round.roundNumber}`;
     this.player = this.gameService.player;
     this.protagonist = game.round!.turn;
@@ -37,7 +40,7 @@ export class GameTableComponent {
       this.subtitle = (this.gameService.game.state === GameState.Guessing) ? 'Other players are guessing now.' : 'Choose a 4 letter word for others to guess';
     } else if (!this.waitingForGameStart) {
       this.title = (this.gameService.game.state === GameState.Guessing) ? `${this.protagonist!.name} has chosen a word` : `${this.protagonist!.name}'s turn to choose a word`;
-      this.subtitle = 'Guess the 4 letter word';
+      this.subtitle = this.addedInGame ? 'Guess the 4 letter word' : 'Wait for the next game to join in.';
     }
   }
 }

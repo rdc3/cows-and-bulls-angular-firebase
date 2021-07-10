@@ -33,9 +33,9 @@ body {
 //   color: darkslateblue;
 // }
 
-// .example-form-field {
-//   width: 100%;
-// }
+.example-form-field {
+  width: 100%;
+}
 .cross-icon {
   cursor: pointer;
 }
@@ -92,13 +92,9 @@ tr.mat-footer-row {
 .mat-form-field.mat-form-field-invalid .mat-form-field-label {
   color: #fa4242 !important;
 }
-button.mat-button .mat-icon,
-a.mat-button .mat-icon,
-a.mat-raised-button .mat-icon,
-a.mat-flat-button .mat-icon,
-a.mat-stroked-button .mat-icon {
-  vertical-align: top;
-  font-size: 1.25em;
+.material-icons {
+  line-height: 24px !important;
+  vertical-align: middle !important;
 }
 $fontConfig: (
   display-4: mat-typography-level(112px, 112px, 500, "Aclonica", -0.0134em),
@@ -251,9 +247,6 @@ $mat-dark-theme-background: (
 }
 @media only screen and (max-width: 400px) {
   @include mat-core($mobileFontConfig);
-  .material-icons {
-    line-height: 22px;
-  }
 }
 
 // Theme Config

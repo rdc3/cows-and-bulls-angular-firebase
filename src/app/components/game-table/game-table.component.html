@@ -11,7 +11,7 @@
                         </mat-card-header>
                         <mat-card-content>
 
-                            <div *ngIf="!waitingForGameStart">
+                            <div *ngIf="!waitingForGameStart && addedInGame">
                                 <app-guess-input [player]="player" [protagonist]="protagonist" [myTurn]="myTurn">
                                 </app-guess-input>
                             </div>

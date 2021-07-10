@@ -11,8 +11,12 @@ import { Consts } from './models/consts';
 export class AppComponent {
   title = 'CowsAndBulls';
   public playername = localStorage.getItem(Consts.localStorage_player) || 'player';
+  public addedInGame = false;
   constructor(private gameService: GameService, private navigator: NavigatorService) {
-    this.gameService.players$.subscribe(p => this.playername = this.gameService.player.name);
+    this.gameService.players$.subscribe(p => {
+      this.playername = this.gameService.player.name;
+      this.addedInGame = this.gameService.addedInGame;
+    });
   }
   logout() {
     this.gameService.logout();

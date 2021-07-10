@@ -10,6 +10,10 @@
 .example-header-image {
   background-image: url("../../../assets/cow2.png");
   background-size: cover;
+  border-radius: 2px;
+}
+.mat-card-image {
+  border-radius: 4px;
 }
 .example-form {
   // width: 200px
@@ -28,7 +32,7 @@
 }
 .mat-card-background {
   margin: 5px;
-  background-color: rgba(255, 255, 255, 0.75) !important;
+  // background-color: rgba(255, 255, 255, 0.75) !important;
   border-radius: 4px;
 }
 .mat-card {

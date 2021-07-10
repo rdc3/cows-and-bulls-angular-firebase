@@ -7,3 +7,18 @@
   padding: 5px 10px;
   margin-left: 10px;
 }
+.bg-image {
+  background-image: url("./../assets/bulls_and_cows.png");
+  background-size: 100vw;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  margin: auto;
+  opacity: 0.03;
+  background-position: center;
+  z-index: -1;
+}
+.menu-player-name {
+  padding: 5px 15px;
+}

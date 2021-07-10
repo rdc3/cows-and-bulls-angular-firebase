@@ -24,7 +24,6 @@ import { GuessInputComponent } from './components/guess-input/guess-input.compon
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { HotTableModule } from '@handsontable/angular';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav'
 
@@ -49,7 +48,6 @@ import { MatSidenavModule } from '@angular/material/sidenav'
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    HotTableModule.forRoot(),
     MatToolbarModule,
     MatIconModule,
     MatCardModule,

@@ -1,11 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use '~@angular/material' as mat;
 @import "~@angular/material/theming";
-@import "~handsontable/dist/handsontable.full.css";
 
-// $custom-typography: mat-typography-config(
-//   $font-family: "Odibee Sans, cursive",
-// );
 $custom-typography: mat.define-typography-config(
   $font-family: "Odibee Sans, cursive",
   $display-4: mat-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
@@ -19,14 +15,13 @@ $custom-typography: mat.define-typography-config(
   $subheading-1:
     mat-typography-level(20px, 24px, 400, $letter-spacing: -0.005em),
   $body-2: mat-typography-level(16px, 28px, 500, $letter-spacing: -0.005em),
-  $body-1: mat-typography-level(20px, 24px, 400, $letter-spacing: 0.05em),
-  $caption: mat-typography-level(18px, 24px, 400, $letter-spacing: 0.5em),
-  $button: mat-typography-level(18px, 18px, 500, $letter-spacing: 0.5em),
-  $input: mat-typography-level(inherit, 1.125, 400, $letter-spacing: 0.5em),
+  $body-1: mat-typography-level(18px, 22px, 400, $letter-spacing: 0.05em),
+  $caption: mat-typography-level(18px, 24px, 400, $letter-spacing: 0.05em),
+  $button: mat-typography-level(18px, 18px, 500, $letter-spacing: 0.05em),
+  $input: mat-typography-level(inherit, 1.125, 400, $letter-spacing: 0.05em),
 );
 
 @include mat-core($custom-typography);
-// @include mat-core($custom-typography);
 html,
 body {
   height: 100%;
@@ -65,12 +60,7 @@ body {
   max-width: 800px;
 }
 .card-container {
-  // height: 80vh;
-  // margin-top: 30px;
   margin: 10px;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
 }
 .example-header-image {
   background-image: url("./assets/cow2.png");
@@ -134,7 +124,4 @@ tr.mat-header-row {
 tr.mat-row,
 tr.mat-footer-row {
   height: 15px;
-}
-.mat-table {
-  // font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
 }

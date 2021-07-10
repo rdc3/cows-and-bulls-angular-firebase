@@ -2,8 +2,6 @@ import { NotifierService } from './../../services/notifier.service';
 import { PointsService } from './../../services/points.service';
 import { GameService } from 'src/app/services/game.service';
 import { Component, OnInit } from '@angular/core';
-import Handsontable from 'handsontable';
-import { HotTableRegisterer } from '@handsontable/angular';
 import { GameLogicService } from 'src/app/services/game-logic.service';
 import { Player } from 'src/app/models/types';
 
@@ -13,20 +11,9 @@ import { Player } from 'src/app/models/types';
   styleUrls: ['./words-list.component.scss']
 })
 export class WordsListComponent implements OnInit {
-  private hotRegisterer = new HotTableRegisterer();
 
   public displayedColumns: string[] = ['word', 'player', 'cows', 'bulls'];
   dataset: any[] = [];
-  id = 'hotInstance';
-  settings: Handsontable.GridSettings = {
-    licenseKey: "non-commercial-and-evaluation",
-    data: Handsontable.helper.createSpreadsheetData(1, 4),
-    // height: '50vh',
-    width: '50vw',
-    stretchH: 'all',
-    colHeaders: true,
-    rowHeaders: true,
-  }
   constructor(private gameService: GameService, private gameLogicService: GameLogicService, private pointsService: PointsService,
     private notifier: NotifierService) {
     this.gameService.players$.subscribe(players => {
@@ -43,8 +30,6 @@ export class WordsListComponent implements OnInit {
     let guesses: string[] = [];
     players.map((player) => guesses = guesses.concat(player.guesses));
     // console.log('guesses: ', guesses);
-    this.dataset = Handsontable.helper.createSpreadsheetData(1, 4);
-    this.hotRegisterer.getInstance(this.id)?.loadData(this.dataset);
     this.dataset = [];
     players.map(p => {
       p.guesses.map(guess => {
@@ -54,7 +39,6 @@ export class WordsListComponent implements OnInit {
         }
         this.dataset.push({ id: id++, word: guess, player: p.name, cows: result.cows, bulls: result.bulls })
         console.log('In words ui update', this.dataset);
-        this.hotRegisterer.getInstance(this.id)?.loadData(this.dataset);
         if (result.bulls === 4 && this.gameService.myTurn) {
           const pid = p.id || '';
           this.pointsService.correctGuess(pid, guesses);

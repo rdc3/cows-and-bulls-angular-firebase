@@ -27,6 +27,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { HttpClientModule } from '@angular/common/http';
+import { LoadingComponent } from './components/loading/loading.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -38,7 +40,8 @@ import { HttpClientModule } from '@angular/common/http';
     CreateGameComponent,
     JoinGameComponent,
     WordsListComponent,
-    GuessInputComponent
+    GuessInputComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatGridListModule,

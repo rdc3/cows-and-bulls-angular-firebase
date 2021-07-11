@@ -96,6 +96,13 @@ tr.mat-footer-row {
   line-height: 24px !important;
   vertical-align: middle !important;
 }
+.bg-loading {
+  background: rgba(0, 0, 0, 0.79);
+}
+.mat-dialog-container {
+  overflow: hidden !important;
+  padding: 0px !important;
+}
 $fontConfig: (
   display-4: mat-typography-level(112px, 112px, 500, "Aclonica", -0.0134em),
   display-3: mat-typography-level(56px, 56px, 400, "Aclonica", -0.0089em),

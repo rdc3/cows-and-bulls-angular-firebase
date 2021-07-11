@@ -1,3 +1,4 @@
+import { LoadingService } from './../../services/loading.service';
 import { WordlistService } from './../../services/wordlist.service';
 import { GameService } from './../../services/game.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -30,7 +31,7 @@ export class GuessInputComponent implements OnInit {
   ]);
 
   matcher = new ErrorStateMatcher();
-  constructor(private gameService: GameService, private wordlistService: WordlistService) {
+  constructor(private gameService: GameService, private wordlistService: WordlistService, private loadingService: LoadingService) {
     this.protagonist!.name = 'a player';
     this.gameService.players$.subscribe(p => {
       this.players = p;
@@ -61,9 +62,11 @@ export class GuessInputComponent implements OnInit {
   }
 
   submit() {
+    // this.loadingService.openDialog();
     (this.myTurn) ? this.startTheRound() : this.submitNewGuess();
   }
   submitNewGuess() {
+    // this.loadingService.openDialog();
     if (this.guessWordFormControl.valid) {
       this.gameService.newGuess(this.guessWordFormControl.value).subscribe();
       this.guessWordFormControl.reset();

@@ -16,6 +16,7 @@ export class GameService {
   public players: Player[] = [];
   public wordlist: any;
   public addedInGame = false;
+
   constructor(private db: DbService, private navigator: NavigatorService) {
     this.player.name = localStorage.getItem(Consts.localStorage_player) || `player${Math.round(Math.random() * 100)}`;
     this.player.isModerator = localStorage.getItem(Consts.localStorage_isModerator) === 'true' || false;
@@ -26,10 +27,13 @@ export class GameService {
     console.log('Fetching Game details from db');
     combineLatest([this.db.game$, this.db.players$]).subscribe(([game, players]) => {
       (!this.detectChange(game, players)) ? console.log('no change detected') : console.log('change detected');
-      if (!this.detectChange(game, players)) return;
+      let navigationRequired = this.navigator.detectWrongPage(game.state, this.player, players);
+      if (!this.detectChange(game, players) && !navigationRequired) return;
       this.player.isModerator = localStorage.getItem(Consts.localStorage_isModerator) === 'true' || false;
       if (this.game.round.roundNumber !== game.round.roundNumber) {
-        console.log('********************************* NEW ROUND **********************************************');
+        console.log(`********************************* NEW ROUND : ${this.game.round.roundNumber}/${game.round.roundNumber} **********************************************`);
+      } else {
+        console.log(`ROUND no: ${this.game.round.roundNumber}/${game.round.roundNumber}`);
       }
       this.game = new Game(game);
       if (this.detectChangeInPlayers(players)) {
@@ -37,9 +41,7 @@ export class GameService {
         this.players$.next([...this.players]);
       }
       console.log('Data fetched form db:**********************************************');
-      console.log('Game:', this.game);
-      console.log('Players:', this.players);
-      console.log('Yet to Play', this.game.round.yetToPlay.map(p => p.name));
+      console.log('Game:', this.game, '::Players:', this.players, '::Yet to Play', this.game.round.yetToPlay.map(p => p.name));
       let playerInDb: Player | undefined = players.find(p => this.player.name === p.name)
       // console.log('player form db:', playerInDb, this.player);
       this.player.id = playerInDb?.id;
@@ -49,36 +51,8 @@ export class GameService {
         this.myTurn = this.game.round?.turn?.id === playerInDb?.id;
         console.log('my turn:', this.myTurn);
         this.game$.next(this.game);
-        switch (this.game.state) {
-          case GameState.Guessing:
-          case GameState.Started:
-          case GameState.Finished:
-          case GameState.WaitingForNextWord:
-            console.log('navigate 1');
-            this.navigator.gotoGamePage();
-            break;
-          case GameState.NotCreated:
-            console.log('navigate 2');
-            this.navigator.gotoHomePage();
-            break;
-          case GameState.Created:
-            console.log('navigate 3');
-            if (!playerInDb || this.player.isModerator) {
-              this.navigator.gotoJoinPage();
-            } else {
-              console.log('did not navigate..', playerInDb, this.player.isModerator);
-            }
-            break;
-          default:
-            if (playerInDb?.id) {
-              console.log('navigate 4');
-              this.player.id = playerInDb!.id;
-              this.navigator.gotoGamePage();
-            } else {
-              console.log('navigate 5');
-              this.navigator.gotoHomePage();
-            }
-            break;
+        if (navigationRequired) {
+          this.navigator.gotoExpectedpage();
         }
       }
     },
@@ -172,6 +146,9 @@ export class GameService {
           console.log();
         })
     })
+  }
+  nextRound() {
+
   }
   createModerator() {
     this.players.map(p => {

@@ -25,8 +25,6 @@ export class GameTableComponent {
     });
   }
   private setlocals(game: Game) {
-    console.log('in setlocals:', this.gameService.addedInGame)
-    console.log('in setlocals:', game)
     this.addedInGame = this.gameService.addedInGame;
     this.round = `Round ${game.round.roundNumber}`;
     this.player = this.gameService.player;

@@ -1,3 +1,4 @@
+import { WordlistService } from './services/wordlist.service';
 import { NavigatorService } from './services/navigator.service';
 import { GameService } from 'src/app/services/game.service';
 import { Component } from '@angular/core';
@@ -12,7 +13,8 @@ export class AppComponent {
   title = 'CowsAndBulls';
   public playername = localStorage.getItem(Consts.localStorage_player) || 'player';
   public addedInGame = false;
-  constructor(private gameService: GameService, private navigator: NavigatorService) {
+  constructor(private gameService: GameService, private navigator: NavigatorService, private wordlistService: WordlistService) {
+    console.log('fetching words', wordlistService.isValidWord(''));
     this.gameService.players$.subscribe(p => {
       this.playername = this.gameService.player.name;
     });

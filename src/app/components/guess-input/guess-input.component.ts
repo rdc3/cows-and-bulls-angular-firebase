@@ -68,14 +68,14 @@ export class GuessInputComponent implements OnInit {
   submitNewGuess() {
     // this.loadingService.openDialog();
     if (this.guessWordFormControl.valid) {
-      this.gameService.newGuess(this.guessWordFormControl.value).subscribe();
+      this.gameService.newGuess(this.guessWordFormControl.value.toLowerCase()).subscribe();
       this.guessWordFormControl.reset();
     }
   }
   private startTheRound() {
     if (this.guessWordFormControl.valid) {
       localStorage.setItem(Consts.localStorage_roundStartedAt, new Date().valueOf().toString())
-      this.gameService.setNextWord(this.guessWordFormControl.value).subscribe();
+      this.gameService.setNextWord(this.guessWordFormControl.value.toLowerCase()).subscribe();
       this.guessWordFormControl.reset();
     }
   }
@@ -83,16 +83,17 @@ export class GuessInputComponent implements OnInit {
   guessedWordValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       this.errorMessage = '';
-      let forbidden = control.value?.length != 4;
-      const repeatedLetter = control.value?.split("").some((v: any, i: number, a: string[]) => { return a.lastIndexOf(v) != i; });
-      const repeatedWord = (!this.myTurn) ? (this.players.map(player => player.guesses.some(guess => guess === control.value)).filter(v => v).length > 0) : false;
-      const notInDictionary = !this.wordlistService.isValidWord(control.value);
+      const value = control.value?.toLowerCase();
+      let forbidden = value?.length != 4;
+      const repeatedLetter = value?.split("").some((v: string, i: number, a: string[]) => { return a.lastIndexOf(v.toLowerCase()) != i; });
+      const repeatedWord = (!this.myTurn) ? (this.players.map(player => player.guesses.some(guess => guess === value)).filter(v => v).length > 0) : false;
+      const notInDictionary = !this.wordlistService.isValidWord(value);
       if (notInDictionary) this.errorMessage = `Try a valid word.`;
-      if (repeatedWord) this.errorMessage = `Someone already tried "${control.value}".`;
+      if (repeatedWord) this.errorMessage = `Someone already tried "${value}".`;
       if (repeatedLetter) this.errorMessage = `Letters cannot be repeated.`;
       if (forbidden) this.errorMessage = `Please enter a 4 letter word.`;
       forbidden = forbidden || repeatedLetter || repeatedWord || notInDictionary;
-      return forbidden ? { forbiddenName: { value: control.value } } : null;
+      return forbidden ? { forbiddenName: { value: value } } : null;
     };
   }
 

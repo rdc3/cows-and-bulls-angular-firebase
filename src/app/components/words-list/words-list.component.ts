@@ -3,7 +3,7 @@ import { PointsService } from './../../services/points.service';
 import { GameService } from 'src/app/services/game.service';
 import { Component, OnInit } from '@angular/core';
 import { GameLogicService } from 'src/app/services/game-logic.service';
-import { Player } from 'src/app/models/types';
+import { GameState, Player } from 'src/app/models/types';
 
 @Component({
   selector: 'app-words-list',
@@ -36,6 +36,8 @@ export class WordsListComponent implements OnInit {
         const result = this.gameLogicService.checkWord(guess)
         if (result.bulls === 4) {
           this.notifier.popup(`${p.name} guessed ${this.gameService.game.round.word}`, 'Correct Guess')
+          this.gameService.game.state = GameState.WaitingForNextWord;
+          this.gameService.game$.next(this.gameService.game);
         }
         this.dataset.push({ id: id++, word: guess, player: p.name, cows: result.cows, bulls: result.bulls })
         console.log('In words ui update', this.dataset);

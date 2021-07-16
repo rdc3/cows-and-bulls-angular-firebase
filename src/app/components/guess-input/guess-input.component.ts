@@ -38,12 +38,10 @@ export class GuessInputComponent implements OnInit {
       this.player = this.gameService.player;
     });
     this.gameService.game$.subscribe(g => {
-      // console.log('protogonist2 :', g)
       this.protagonist = g.round!.turn;
       this.myTurn = this.protagonist?.id === this.player?.id;
       this.WaitingForNextWord = g.state === GameState.WaitingForNextWord;
       this.updateUI();
-      // console.log('waitingForGameStart: ', this.WaitingForNextWord, g?.state, GameState.Guessing)
     })
   }
   ngOnInit(): void {
@@ -55,7 +53,7 @@ export class GuessInputComponent implements OnInit {
     this.WaitingForNextWord = this.gameService.game.state === GameState.WaitingForNextWord;
     this.players = this.gameService.players;
     this.player = this.gameService.player;
-    console.log('protogonist1 :', this.protagonist, this.player, this.myTurn, this.WaitingForNextWord)
+    console.log('protagonist1 :', this.protagonist, this.player, this.myTurn, this.WaitingForNextWord)
     this.subScript = (this.myTurn) ? 'Enter a 4 letter word for others to guess'
       : (this.protagonist) ? `Waiting for ${this.protagonist!.name} to provide a word for guessing` : 'Waiting!!!'
 

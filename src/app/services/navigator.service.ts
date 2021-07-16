@@ -16,7 +16,7 @@ export class NavigatorService {
   public gotoGamePage() {
     this.router.navigate([Consts.route_game]);
   }
-  public gotoExpectedpage() {
+  public gotoExpectedPage() {
     this.router.navigate([this.expectedRoute]);
   }
   public detectWrongPage(gameState: GameState, player: Player, players: Player[]): boolean {

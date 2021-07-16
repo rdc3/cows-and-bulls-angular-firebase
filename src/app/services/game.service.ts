@@ -52,7 +52,7 @@ export class GameService {
         console.log('my turn:', this.myTurn);
         this.game$.next(this.game);
         if (navigationRequired) {
-          this.navigator.gotoExpectedpage();
+          this.navigator.gotoExpectedPage();
         }
       }
     },

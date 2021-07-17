@@ -1,0 +1,45 @@
+.chat-name {
+  font-size: x-small;
+}
+.chat-message {
+  padding: 5px 10px;
+}
+
+.chat-name {
+  font-size: x-small;
+  color: bisque;
+}
+.chat-message {
+  padding: 5px 10px;
+  background-color: #717d88d1;
+}
+.me {
+  .chat-message {
+    margin-right: 10px;
+    border-radius: 20px 0px 20px 20px;
+  }
+  .chat-name {
+    margin-right: 5px;
+    text-align: right;
+  }
+  .chat-time {
+    margin-left: 10px;
+    margin-right: 4px;
+  }
+}
+.others {
+  .chat-message {
+    margin-left: 10px;
+    border-radius: 0px 20px 20px 20px;
+  }
+  .chat-name {
+    margin-left: 5px;
+  }
+  .chat-time {
+    margin-right: 10px;
+    margin-left: 4px;
+  }
+}
+.chat-time {
+  color: burlywood;
+}

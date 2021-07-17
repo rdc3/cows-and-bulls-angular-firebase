@@ -1,0 +1,25 @@
+<mat-card class="example-card chat-container">
+    <mat-card-header>
+        <mat-card-title>{{playerName}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div #chatMessagesContainer class="chat-messages">
+            <div *ngFor="let message of chatMessages">
+                <app-message-item [chatMessage]="message" [me]="message.by===playerName"></app-message-item>
+            </div>
+        </div>
+        <form class="chat-form" (keydown.enter)="$event.preventDefault()">
+            <mat-form-field class="example-form-field" appearance="fill">
+                <mat-label class="text-placeholder">Type to chat with other players.</mat-label>
+                <input [formControl]="chatFormControl" matInput type="text" (keydown.enter)="submit()">
+                <button *ngIf="chatFormControl.value" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="chatFormControl.patchValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <button *ngIf="chatFormControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="submit()">
+                    <mat-icon>send</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+</mat-card>

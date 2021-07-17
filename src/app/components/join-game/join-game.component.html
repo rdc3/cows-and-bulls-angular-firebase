@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-evenly center">
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-evenly start">
 
     <div fxLayout="column" fxLayoutAlign="space-evenly center">
         <div class="card-container">
@@ -51,7 +51,8 @@
         </div>
 
     </div>
-    <div class="table-container">
+    <div class="table-container" fxLayout="column" fxLayoutAlign="space-evenly start">
         <app-players-list></app-players-list>
+        <app-chat></app-chat>
     </div>
 </div>

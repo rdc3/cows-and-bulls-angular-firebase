@@ -1,6 +1,6 @@
-<div class="game-container" fxLayout="row" fxLayoutAlign="space-evenly center">
+<div class="game-container" fxLayout="row" fxLayoutAlign="stretch">
     <div fxLayout="row" fxLayout.xs="column">
-        <div fxLayout="column" fxLayoutAlign="space-evenly center">
+        <div class="left-panel" fxLayout="column" fxLayoutAlign="start">
             <div class="card-container">
                 <div class="mat-card-background">
                     <mat-card class="example-card">
@@ -28,8 +28,9 @@
                 <app-words-list></app-words-list>
             </div>
         </div>
-        <div class="table-container" fxLayout="row" fxLayoutAlign="space-evenly start">
+        <div class="right-panel" fxLayout="column" fxLayoutAlign="start">
             <app-players-list></app-players-list>
+            <app-chat></app-chat>
         </div>
     </div>
 </div>

@@ -12,18 +12,23 @@ export class PlayersListComponent implements OnInit {
   public playerTableData: IPlayersTable[] = [];
   public displayedColumns: string[] = ['player', 'points'];
   public dataSource: IPlayersTable[] = [];
+  private players: Player[];
   constructor(private gameService: GameService) {
     this.gameService.players$.subscribe(players => {
-      this.setTableData(players);
+      // console.log('***** constructor : Creating points table', this.gameService.players, players);
+      this.players = players;
+      this.setTableData();
     });
   }
 
   ngOnInit(): void {
-    this.setTableData(this.gameService.players);
+    // console.log('***** ngOnInit : Creating points table', this.gameService.players);
+    this.setTableData();
   }
-  private setTableData(players: Player[]) {
+  private setTableData() {
+    console.log('***** Creating points table', this.gameService.players$.value);
     this.playerTableData = [];
-    players.map(player => this.playerTableData.push({ name: player.name, points: player.points.toString() }))
+    this.gameService.players$.value.map(player => this.playerTableData.push({ name: player.name, points: player.points.toString() }))
     this.dataSource = [...this.playerTableData];
   }
 }

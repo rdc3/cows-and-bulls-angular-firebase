@@ -1,0 +1,28 @@
+.chat-container {
+  margin-top: 10px;
+  width: 300px;
+  padding: 10px 2px 0px 0px;
+}
+.text-placeholder {
+  font-size: xx-small;
+}
+.chat-form {
+  margin: 5px;
+}
+.chat-messages {
+  max-height: 50vw;
+  overflow: auto;
+}
+$width: 100vw;
+@media screen and (max-width: 768px) {
+  .chat-container {
+    margin: 10px;
+    width: calc(100vw - 25px);
+  }
+}
+@media screen and (max-width: 1024px) and (orientation: landscape) {
+  .chat-container {
+    margin-top: 10px;
+    width: calc(50vw - 25px);
+  }
+}

@@ -11,6 +11,7 @@ export class LoadingService {
   private loadPercent$: BehaviorSubject<string> = new BehaviorSubject(this.loadPercent.toFixed(2).toString());
   private dialogRef: MatDialogRef<any>;
   private dialogOpen = false;
+  public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   constructor(public dialog: MatDialog) { }
 
   openDialog() {
@@ -22,8 +23,10 @@ export class LoadingService {
     }
     this.dialogRef = this.dialog.open(LoadingComponent, config);
     this.dialogOpen = true;
+    this.loading$.next(true);
     this.dialogRef.afterClosed().subscribe(result => {
       this.dialogOpen = false;
+      this.loading$.next(false);
     });
   }
   closeDialog() {
@@ -31,7 +34,7 @@ export class LoadingService {
   }
   setLoadPercentage(value: number) {
     if (!this.dialogOpen) { this.openDialog(); }
-    this.loadPercent = value;
+    this.loadPercent = value > 0 ? value < 100 ? value : 100 : 0;
     if (this.loadPercent >= 100) {
       this.closeDialog();
     }

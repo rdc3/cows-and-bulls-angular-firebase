@@ -1,6 +1,6 @@
 <!-- <mat-grid-list cols="5">
     <mat-grid-tile [colspan]="5"> -->
-<div fxLayout="column" fxLayoutAlign="start center">
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center">
     <div class="mat-card-background">
         <form class="example-form" [formGroup]="gameFormGroup">
             <mat-card class="example-card">
@@ -53,6 +53,9 @@
                 </mat-card-actions>
             </mat-card>
         </form>
+    </div>
+    <div class="right-panel">
+        <app-chat></app-chat>
     </div>
 </div>
 <!-- </mat-grid-tile>

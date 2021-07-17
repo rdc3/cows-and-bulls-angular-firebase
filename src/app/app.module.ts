@@ -29,6 +29,8 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingComponent } from './components/loading/loading.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ChatComponent } from './components/chat/chat.component';
+import { MessageItemComponent } from './components/chat/message-item/message-item.component';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     JoinGameComponent,
     WordsListComponent,
     GuessInputComponent,
-    LoadingComponent
+    LoadingComponent,
+    ChatComponent,
+    MessageItemComponent
   ],
   imports: [
     BrowserModule,

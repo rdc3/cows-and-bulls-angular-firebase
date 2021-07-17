@@ -1,0 +1,16 @@
+<div ngClass="{{me?'me':'others'}}" fxLayout="row" fxLayoutAlign="{{me ? 'end':'start'}}">
+    <div fxLayout="column" fxLayoutAlign="center">
+        <div class="chat-name">
+            <span *ngIf="!me" class="chat-time">
+                {{chatMessage.at?.toMillis() | date:'h:mm a'}}
+            </span>
+            {{chatMessage.by}}
+            <span *ngIf="me" class="chat-time">
+                {{chatMessage.at?.toMillis() | date:'h:mm a'}}
+            </span>
+        </div>
+        <div class="chat-message">
+            {{chatMessage.message}}
+        </div>
+        <div>
+        </div>

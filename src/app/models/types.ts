@@ -1,4 +1,5 @@
 import { Consts } from "./consts";
+import firebase from 'firebase';
 
 export class Player {
     id?: string;
@@ -61,6 +62,12 @@ export class Game {
             this.timeLimitInMin === game.timeLimitInMin &&
             this.round.equals(game.round)
     }
+}
+export interface ChatMessage {
+    id?: string;
+    by: string;
+    message: string;
+    at: any;
 }
 export class RoundInfo {
     roundNumber: number;

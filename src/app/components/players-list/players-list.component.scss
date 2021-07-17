@@ -1,7 +1,21 @@
 .player-table {
-  width: 100%;
+  // width: 100%;
+  width: 300px;
 }
 tr.mat-header-row,
 tr.mat-row {
   height: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .player-table {
+    margin: 10px;
+    width: calc(100vw - 20px);
+  }
+}
+@media screen and (max-width: 1024px) and (orientation: landscape) {
+  .player-table {
+    margin-top: 10px;
+    width: calc(50vw - 25px);
+  }
 }

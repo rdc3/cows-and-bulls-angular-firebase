@@ -13,7 +13,7 @@ import { Consts } from 'src/app/models/consts';
 })
 
 export class JoinGameComponent implements OnInit {
-  players: Player[] = [];
+  // players: Player[] = [];
   timeLimit: number = 2;
   maxRounds: number = 4;
   public player: Player;
@@ -41,14 +41,14 @@ export class JoinGameComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   constructor(private gameService: GameService, private playerSelectorService: PlayerSelectorService) {
-    this.gameService.players$.subscribe(p => {
-      this.players = p;
-    });
+    // this.gameService.players$.subscribe(p => {
+    //   // this.players = p;
+    // });
   }
   ngOnInit(): void {
     this.player = this.gameService.player;
     if (this.player.name === '') {
-      this.player.name = localStorage.getItem(Consts.localStorage_player) || `Player${this.players.length + 1}`;
+      this.player.name = localStorage.getItem(Consts.localStorage_player) || `Player${this.gameService.players$.value.length + 1}`;
     }
     this.nameFormControl.setValue(this.player.name);
   }
@@ -64,14 +64,14 @@ export class JoinGameComponent implements OnInit {
 
   forbiddenNameValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const forbidden = control.value && control.value != '' && this.players && this.players.find(p => p.name === control.value);
+      const forbidden = control.value && control.value != '' && this.gameService.players$.value.find(p => p.name === control.value);
       return forbidden ? { forbiddenName: { value: control.value } } : null;
     };
   }
 
   startGame() {
     console.log('starting Game');
-    const playing = this.players && this.players.find(p => p.name === this.nameFormControl.value);
+    const playing = this.gameService.players$.value.find(p => p.name === this.nameFormControl.value);
     if (!playing) {
       this.gameService.setPlayerName(this.nameFormControl.value).subscribe(
         (val) => {

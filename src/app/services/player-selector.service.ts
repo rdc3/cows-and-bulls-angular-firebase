@@ -7,14 +7,14 @@ import { GameState, Player } from '../models/types';
 })
 export class PlayerSelectorService {
 
-  private allPlayers: Player[];
+  // private allPlayers: Player[];
   constructor(private gameService: GameService) {
-    this.gameService.players$.subscribe(players => this.allPlayers = players);
+    // this.gameService.players$.subscribe(players => this.allPlayers = players);
   }
   public nextRound() {
     console.log('starting nextRound', this.gameService.game);
     if (!this.gameService.game.round.yetToPlay || this.gameService.game.round.yetToPlay.length === 0) {
-      this.gameService.game.round.yetToPlay = this.allPlayers;
+      this.gameService.game.round.yetToPlay = this.gameService.players$.value;
     }
     this.gameService.game.round!.roundNumber++;
     this.nextPlayer();
@@ -30,11 +30,10 @@ export class PlayerSelectorService {
     // this.gameService.game.round.yetToPlay = this.gameService.game.round.yetToPlay.filter(p => p.id !== this.gameService.game.round!.turn!.id)
     this.gameService.game.state = GameState.WaitingForNextWord;
     console.log('selecting next player', this.gameService.game);
-    this.gameService.players.forEach(player => {
+    this.gameService.players$.value.forEach(player => {
       if (player.guesses.length > 0) {
         player.guesses = [];
-        this.gameService.savePlayer(player).subscribe((_) => {
-        });
+        this.gameService.savePlayer(player).subscribe();
       }
     });
     this.gameService.saveGame(this.gameService.game).subscribe();

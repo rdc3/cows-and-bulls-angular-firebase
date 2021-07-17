@@ -1,3 +1,4 @@
+import { NotifierService } from './../../services/notifier.service';
 import { LoadingService } from './../../services/loading.service';
 import { WordlistService } from './../../services/wordlist.service';
 import { GameService } from './../../services/game.service';
@@ -16,7 +17,7 @@ export class GuessInputComponent implements OnInit {
 
   @Input() player: Player | null | undefined = new Player(null);
   @Input() myTurn: Boolean = false;
-  players: Player[] = [];
+  // players: Player[] = [];
   // player: Player = this.gameService.player;
   @Input() protagonist: Player | null | undefined = new Player(null);
   wordsGuessedCount = 0
@@ -31,10 +32,11 @@ export class GuessInputComponent implements OnInit {
   ]);
 
   matcher = new ErrorStateMatcher();
-  constructor(private gameService: GameService, private wordlistService: WordlistService, private loadingService: LoadingService) {
+  constructor(private gameService: GameService, private wordlistService: WordlistService, private loadingService: LoadingService,
+    private notifierService: NotifierService) {
     this.protagonist!.name = 'a player';
     this.gameService.players$.subscribe(p => {
-      this.players = p;
+      // this.players = p;
       this.player = this.gameService.player;
     });
     this.gameService.game$.subscribe(g => {
@@ -51,7 +53,7 @@ export class GuessInputComponent implements OnInit {
     this.protagonist = this.gameService.game.round!.turn;
     this.myTurn = this.protagonist?.id === this.player?.id;
     this.WaitingForNextWord = this.gameService.game.state === GameState.WaitingForNextWord;
-    this.players = this.gameService.players;
+    // this.players = this.gameService.players$;
     this.player = this.gameService.player;
     console.log('protagonist1 :', this.protagonist, this.player, this.myTurn, this.WaitingForNextWord)
     this.subScript = (this.myTurn) ? 'Enter a 4 letter word for others to guess'
@@ -67,6 +69,11 @@ export class GuessInputComponent implements OnInit {
     // this.loadingService.openDialog();
     if (this.guessWordFormControl.valid) {
       this.gameService.newGuess(this.guessWordFormControl.value.toLowerCase()).subscribe();
+      if (this.guessWordFormControl.value.toLowerCase() === this.gameService.game.round.word) {
+        this.WaitingForNextWord = true;
+        this.subScript = 'You guessed it right!!!';
+        this.notifierService.popup('You guessed it right!!', "Correct Guess");
+      }
       this.guessWordFormControl.reset();
     }
   }
@@ -84,7 +91,7 @@ export class GuessInputComponent implements OnInit {
       const value = control.value?.toLowerCase();
       let forbidden = value?.length != 4;
       const repeatedLetter = value?.split("").some((v: string, i: number, a: string[]) => { return a.lastIndexOf(v.toLowerCase()) != i; });
-      const repeatedWord = (!this.myTurn) ? (this.players.map(player => player.guesses.some(guess => guess === value)).filter(v => v).length > 0) : false;
+      const repeatedWord = (!this.myTurn) ? (this.gameService.players$.value.map(player => player.guesses.some(guess => guess === value)).filter(v => v).length > 0) : false;
       const notInDictionary = !this.wordlistService.isValidWord(value);
       if (notInDictionary) this.errorMessage = `Try a valid word.`;
       if (repeatedWord) this.errorMessage = `Someone already tried "${value}".`;

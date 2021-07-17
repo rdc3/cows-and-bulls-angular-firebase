@@ -1,6 +1,30 @@
-.table-container {
+.right-panel {
   margin: 10px 10px;
+}
+.left-panel {
+  margin: 10px 0px;
+  .card-container {
+    margin-right: 0px;
+  }
 }
 .word-list-container {
   margin: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .right-panel {
+    margin: 10px 0px;
+    .chat-container {
+      margin-left: 0px;
+    }
+  }
+}
+@media screen and (orientation: landscape) {
+  .right-panel {
+    margin-top: 10px;
+    width: calc(40vw - 25px);
+  }
+  .left-panel {
+    width: calc(50vw);
+  }
 }

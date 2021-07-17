@@ -21,7 +21,6 @@ export class NavigatorService {
   }
   public detectWrongPage(gameState: GameState, player: Player, players: Player[]): boolean {
     this.expectedRoute = this.expectedPage(gameState, player, players);
-    console.log(`Expected page : ${this.expectedRoute}, Actual: ${this.router.url}`);
     if (this.expectedRoute !== this.router.url) {
       return true;
     }

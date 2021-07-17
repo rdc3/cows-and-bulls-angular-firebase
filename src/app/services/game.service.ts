@@ -4,16 +4,17 @@ import { Game, GameState, Player } from '../models/types';
 import { Consts } from '../models/consts';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { NavigatorService } from './navigator.service';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
   public game: Game = new Game(null);
   public player: Player = new Player(null);
-  public players$: Subject<Player[]> = new Subject();
+  public players$: BehaviorSubject<Player[]> = new BehaviorSubject<Player[]>([]);
   public game$: Subject<Game> = new Subject();
   public myTurn = false;
-  public players: Player[] = [];
+  private players: Player[] = [];
   public wordlist: any;
   public addedInGame = false;
 
@@ -37,7 +38,11 @@ export class GameService {
       }
       this.game = new Game(game);
       if (this.detectChangeInPlayers(players)) {
-        this.players = players.map(player => new Player(player));
+        this.players = players.map(player => {
+          const p = new Player(player);
+          if (p.id === this.player.id) { this.player = p; }
+          return p;
+        });
         this.players$.next([...this.players]);
       }
       console.log('Data fetched form db:**********************************************');
@@ -60,7 +65,9 @@ export class GameService {
   }
   private detectChangeInPlayers(dbPlayers: Player[]) {
     console.log('Checking change Player:', this.players, dbPlayers);
-    return !(this.players.length === dbPlayers.length && this.players.every(function (value, index) { return value.equals(dbPlayers[index]) }))
+    const changeDetected = !(this.players.length === dbPlayers.length && this.players.every(function (value, index) { return value.equals(dbPlayers[index]) }));
+    console.log('changeDetected:', changeDetected, this.players);
+    return changeDetected;
   }
   private detectChange(dbGame: Game, dbPlayers: Player[]) {
     console.log('Checking change Game:', this.game, dbGame);
@@ -77,7 +84,7 @@ export class GameService {
     newGame.timeLimitInMin = maxTime;
     newGame.maxWordsToGuess = maxWords;
     newGame.state = GameState.Created;
-    this.db.addGame(newGame).subscribe(val => console.log(val));
+    this.db.createGameDb(newGame).subscribe();
     localStorage.setItem(Consts.localStorage_isModerator, `${this.player.isModerator}`);
   }
   public startGame() {

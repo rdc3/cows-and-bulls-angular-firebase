@@ -3,7 +3,11 @@
     <!-- Name Column -->
     <ng-container matColumnDef="player">
         <th mat-header-cell *matHeaderCellDef> Player </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element">
+            <span ngClass="{{setAvailabilityClass(element.available)}}">
+                <mat-icon>brightness_1</mat-icon>
+            </span> {{element.name}}
+        </td>
     </ng-container>
 
     <!-- Points Column -->

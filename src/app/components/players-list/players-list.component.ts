@@ -1,4 +1,5 @@
-import { Player } from 'src/app/models/types';
+import { UserAvailabilityService } from './../../services/user-availability.service';
+import { Availability, Player } from 'src/app/models/types';
 import { GameService } from 'src/app/services/game.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -12,11 +13,9 @@ export class PlayersListComponent implements OnInit {
   public playerTableData: IPlayersTable[] = [];
   public displayedColumns: string[] = ['player', 'points'];
   public dataSource: IPlayersTable[] = [];
-  private players: Player[];
-  constructor(private gameService: GameService) {
-    this.gameService.players$.subscribe(players => {
-      // console.log('***** constructor : Creating points table', this.gameService.players, players);
-      this.players = players;
+  constructor(private gameService: GameService, private userAvailabilityService: UserAvailabilityService) {
+    this.gameService.players$.subscribe(_ => {
+      this.userAvailabilityService.check();
       this.setTableData();
     });
   }
@@ -28,11 +27,31 @@ export class PlayersListComponent implements OnInit {
   private setTableData() {
     console.log('***** Creating points table', this.gameService.players$.value);
     this.playerTableData = [];
-    this.gameService.players$.value.map(player => this.playerTableData.push({ name: player.name, points: player.points.toString() }))
+    this.gameService.players$.value.map(player => this.playerTableData.push({
+      name: player.name,
+      points: player.points.toString(),
+      available: player.availability
+    }))
     this.dataSource = [...this.playerTableData];
+  }
+  setAvailabilityClass(available: Availability) {
+    let availableClass = 'offline'
+    switch (available) {
+      case Availability.online:
+        availableClass = 'online';
+        break;
+      case Availability.offline:
+        availableClass = 'offline';
+        break;
+      case Availability.away:
+        availableClass = 'away';
+        break;
+    }
+    return availableClass;
   }
 }
 export interface IPlayersTable {
   name: string;
   points: string;
+  available: Availability;
 }

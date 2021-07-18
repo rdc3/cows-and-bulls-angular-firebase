@@ -1,10 +1,11 @@
 import { DbService } from './db.service';
 import { Injectable } from '@angular/core';
-import { Game, GameState, Player } from '../models/types';
+import { Availability, Game, GameState, Player } from '../models/types';
 import { Consts } from '../models/consts';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { NavigatorService } from './navigator.service';
 import { BehaviorSubject } from 'rxjs';
+import { UserAvailabilityService } from './user-availability.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +19,15 @@ export class GameService {
   public wordlist: any;
   public addedInGame = false;
 
-  constructor(private db: DbService, private navigator: NavigatorService) {
+  constructor(private db: DbService, private navigator: NavigatorService, private availability: UserAvailabilityService) {
+    this.availability.availability$.subscribe(availability => {
+      console.log('Avilability saving:', availability);
+      this.publishAvailability(availability);
+      this.players$.next(this.players$.value.map(p => {
+        if (p.id === this.player.id) { p.availability = availability; }
+        return p;
+      }))
+    })
     this.player.name = localStorage.getItem(Consts.localStorage_player) || `player${Math.round(Math.random() * 100)}`;
     this.player.isModerator = localStorage.getItem(Consts.localStorage_isModerator) === 'true' || false;
     console.log('this.player.isModerator', this.player.isModerator, localStorage.getItem(Consts.localStorage_isModerator));
@@ -65,16 +74,32 @@ export class GameService {
   }
   private detectChangeInPlayers(dbPlayers: Player[]) {
     console.log('Checking change Player:', this.players, dbPlayers);
-    const changeDetected = !(this.players.length === dbPlayers.length && this.players.every(function (value, index) { return value.equals(dbPlayers[index]) }));
+    const changeDetected = !(this.players.length === dbPlayers.length && this.players.every((value, index) => {
+      const change = value.equals(dbPlayers[index]);
+      if (change && dbPlayers[index].id === this.player.id) {
+        this.availability.check();
+        if (this.availability.availability$.value !== dbPlayers[index].availability) {
+          this.publishAvailability(this.availability.availability$.value);
+        }
+      }
+      return change;
+    }));
     console.log('changeDetected:', changeDetected, this.players);
     return changeDetected;
+  }
+  private publishAvailability(availability: Availability) {
+    this.player.availability = availability;
+    if (this.player.name) {
+      console.log('Availability Published:', availability, this.player);
+      this.savePlayer(this.player).subscribe();
+    }
   }
   private detectChange(dbGame: Game, dbPlayers: Player[]) {
     console.log('Checking change Game:', this.game, dbGame);
     return this.players.length !== dbPlayers.length || !this.game.equals(dbGame) || this.detectChangeInPlayers(dbPlayers);
   }
   public initGame(maxRounds: number, maxTime: number, maxWords: number) {
-    console.log('Game', this.game);
+    console.log('Game:', this.game);
     if (this.game) {
       this.db.deleteGame(this.game);
     }
@@ -100,7 +125,7 @@ export class GameService {
   setPlayerName(name: string): Observable<boolean> {
     return new Observable((observer) => {
       this.player.name = name;
-
+      this.player.availability = Availability.online;
       console.log("player joining", this.player);
       const forbidden = this.players && this.players.length > 0 && this.players.find(p => p.name === name) && name === '';
       if (!forbidden) {
@@ -164,7 +189,10 @@ export class GameService {
     });
   }
   public savePlayer(player: Player) {
-    return this.db.updatePlayer(player);
+    if (this.players$.value.find(p => p.id === player.id)) {
+      return this.db.updatePlayer(player);
+    }
+    return of(false);
   }
   public logout() {
     this.db.clear();

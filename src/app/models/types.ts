@@ -8,12 +8,14 @@ export class Player {
     guesses: string[];
     isModerator: boolean;
     timestamp?: any;
+    availability: Availability;
     constructor(player: Player | null) {
         if (!player) {
             this.name = "";
             this.points = 0;
             this.guesses = [];
             this.isModerator = false;
+            this.availability = Availability.online
         } else {
             this.id = player.id;
             this.name = player.name;
@@ -21,6 +23,7 @@ export class Player {
             this.guesses = [...player.guesses];
             this.isModerator = player.isModerator;
             this.timestamp = player.timestamp;
+            this.availability = player.availability;
         }
     }
     public equals(player: Player) {
@@ -28,7 +31,8 @@ export class Player {
             this.name === player.name &&
             this.points === player.points &&
             this.guesses.length === player.guesses.length && this.guesses.every(function (value, index) { return value === player.guesses[index] }) &&
-            this.isModerator === player.isModerator;
+            this.isModerator === player.isModerator &&
+            this.availability === player.availability;
     }
 }
 export class Game {
@@ -109,4 +113,9 @@ export enum GameState {
 export interface Result {
     cows: number;
     bulls: number;
+}
+export enum Availability {
+    online,
+    offline,
+    away
 }

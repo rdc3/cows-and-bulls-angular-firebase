@@ -92,7 +92,7 @@ export class DbService {
   }
   updatePlayer(player: Player) {
     console.log('updating Player', player);
-    const oldPlayerData = this.players.find(p => p.id === player.id);
+    const oldPlayerData = this.players?.find(p => p.id === player.id);
     if (_.isEqual(oldPlayerData, player)) {
       console.log(`No change in player ${player.name}. Not performing save`, oldPlayerData, player);
       return of(true);

@@ -6,7 +6,15 @@ tr.mat-header-row,
 tr.mat-row {
   height: 20px;
 }
-
+.online {
+  color: rgb(17, 161, 17);
+}
+.offline {
+  color: grey;
+}
+.away {
+  color: orange;
+}
 @media screen and (max-width: 768px) {
   .player-table {
     margin: 10px;

@@ -19,7 +19,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatMessages = this.chatService.chat$.value;
     this.chatService.chat$.subscribe(chat => {
       this.chatMessages = chat;
-      console.log('**chat:', chat);
     });
   }
 

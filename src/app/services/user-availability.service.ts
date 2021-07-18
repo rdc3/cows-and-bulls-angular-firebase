@@ -16,10 +16,8 @@ export class UserAvailabilityService {
   }
   check() {
     const availability = document.hidden ? Availability.away : Availability.online;
-    console.log('Availability Checked:', availability, this.availability$.value);
     if (this.availability$.value !== availability) {
       this.availability$.next(availability);
-      console.log('Availability Updated:', this.availability$.value);
     }
   }
   goingOffline() {

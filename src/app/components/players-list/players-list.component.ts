@@ -21,11 +21,9 @@ export class PlayersListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log('***** ngOnInit : Creating points table', this.gameService.players);
     this.setTableData();
   }
   private setTableData() {
-    console.log('***** Creating points table', this.gameService.players$.value);
     this.playerTableData = [];
     this.gameService.players$.value.map(player => this.playerTableData.push({
       name: player.name,

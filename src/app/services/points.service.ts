@@ -27,6 +27,5 @@ export class PointsService {
       this.gameService.savePlayer(player).subscribe();
     }
     this.playerSelectorService.nextPlayer();
-    console.log('****** POINTS : ', points);
   }
 }

@@ -21,7 +21,6 @@ export class GameService {
 
   constructor(private db: DbService, private navigator: NavigatorService, private availability: UserAvailabilityService) {
     this.availability.availability$.subscribe(availability => {
-      console.log('Avilability saving:', availability);
       this.publishAvailability(availability);
       this.players$.next(this.players$.value.map(p => {
         if (p.id === this.player.id) { p.availability = availability; }
@@ -34,7 +33,6 @@ export class GameService {
     if (localStorage.getItem(Consts.localStorage_isModerator) === undefined) {
       localStorage.setItem(Consts.localStorage_isModerator, `${this.player.isModerator}`);
     }
-    console.log('Fetching Game details from db');
     combineLatest([this.db.game$, this.db.players$]).subscribe(([game, players]) => {
       (!this.detectChange(game, players)) ? console.log('no change detected') : console.log('change detected');
       let navigationRequired = this.navigator.detectWrongPage(game.state, this.player, players);
@@ -74,6 +72,11 @@ export class GameService {
   }
   private detectChangeInPlayers(dbPlayers: Player[]) {
     console.log('Checking change Player:', this.players, dbPlayers);
+    if (this.players.length === 0) {
+      setTimeout(() => {
+        this.publishAvailability(this.availability.availability$.value);
+      }, 2000); // for page refresh
+    }
     const changeDetected = !(this.players.length === dbPlayers.length && this.players.every((value, index) => {
       const change = value.equals(dbPlayers[index]);
       if (change && dbPlayers[index].id === this.player.id) {
@@ -90,7 +93,6 @@ export class GameService {
   private publishAvailability(availability: Availability) {
     this.player.availability = availability;
     if (this.player.name) {
-      console.log('Availability Published:', availability, this.player);
       this.savePlayer(this.player).subscribe();
     }
   }

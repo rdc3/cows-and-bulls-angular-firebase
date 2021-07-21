@@ -11,7 +11,7 @@ export class PointsService {
     const player = this.gameService.players$.value.find(p => p.id === playerId);
     console.log('Correct guess', player);
     let points: number = player?.points || 0;
-    points += Math.round(100 - guesses.length);
+    points += Math.round(30 - guesses.length - 1);
     player!.points = points;
     player!.guesses = [];
     if (player) {

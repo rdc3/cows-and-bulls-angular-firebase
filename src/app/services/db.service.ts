@@ -47,7 +47,7 @@ export class DbService {
     localStorage.setItem(Consts.localStorage_player, player.name);
     return new Observable((observer) => {
       this.playersDBRef
-        .add(JSON.parse(JSON.stringify(player)))
+        .add({ ...JSON.parse(JSON.stringify(player)), timestamp: this.getTimestamp() })
         .then(res => { observer.next(res); }, err => observer.error(err));
     });
   }
@@ -100,7 +100,7 @@ export class DbService {
     return new Observable((observer) => {
       this.playersDBRef
         .doc(player.id)
-        .set(JSON.parse(JSON.stringify(player)), { merge: true })
+        .set({ ...JSON.parse(JSON.stringify(player)), timestamp: this.getTimestamp() }, { merge: true })
         .then(res => { observer.next(res); }, err => observer.error(err));
     });
   }

@@ -40,11 +40,7 @@ export class JoinGameComponent implements OnInit {
   maxRoundsFormControl = this.gameFormGroup.controls.maxRoundsFormControl;
   matcher = new ErrorStateMatcher();
 
-  constructor(private gameService: GameService, private playerSelectorService: PlayerSelectorService) {
-    // this.gameService.players$.subscribe(p => {
-    //   // this.players = p;
-    // });
-  }
+  constructor(private gameService: GameService, private playerSelectorService: PlayerSelectorService) { }
   ngOnInit(): void {
     this.player = this.gameService.player;
     if (this.player.name === '') {
@@ -54,7 +50,6 @@ export class JoinGameComponent implements OnInit {
   }
 
   update() {
-    // console.log(this.nameFormControl);
     if (this.nameFormControl.valid) {
       this.gameService.setPlayerName(this.nameFormControl.value).subscribe();
     } else {

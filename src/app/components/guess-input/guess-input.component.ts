@@ -36,7 +36,6 @@ export class GuessInputComponent implements OnInit {
     private notifierService: NotifierService) {
     this.protagonist!.name = 'a player';
     this.gameService.players$.subscribe(p => {
-      // this.players = p;
       this.player = this.gameService.player;
     });
     this.gameService.game$.subscribe(g => {
@@ -53,7 +52,6 @@ export class GuessInputComponent implements OnInit {
     this.protagonist = this.gameService.game.round!.turn;
     this.myTurn = this.protagonist?.id === this.player?.id;
     this.WaitingForNextWord = this.gameService.game.state === GameState.WaitingForNextWord;
-    // this.players = this.gameService.players$;
     this.player = this.gameService.player;
     console.log('protagonist1 :', this.protagonist, this.player, this.myTurn, this.WaitingForNextWord)
     this.subScript = (this.myTurn) ? 'Enter a 4 letter word for others to guess'
@@ -62,11 +60,9 @@ export class GuessInputComponent implements OnInit {
   }
 
   submit() {
-    // this.loadingService.openDialog();
     (this.myTurn) ? this.startTheRound() : this.submitNewGuess();
   }
   submitNewGuess() {
-    // this.loadingService.openDialog();
     if (this.guessWordFormControl.valid) {
       this.gameService.newGuess(this.guessWordFormControl.value.toLowerCase()).subscribe();
       if (this.guessWordFormControl.value.toLowerCase() === this.gameService.game.round.word) {

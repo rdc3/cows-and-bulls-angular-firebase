@@ -37,13 +37,13 @@ export class GameService {
       (!this.detectChange(game, players)) ? console.log('no change detected') : console.log('change detected');
       let navigationRequired = this.navigator.detectWrongPage(game.state, this.player, players);
       if (!this.detectChange(game, players) && !navigationRequired) return;
-      this.player.isModerator = localStorage.getItem(Consts.localStorage_isModerator) === 'true' || false;
       if (this.game.round.roundNumber !== game.round.roundNumber) {
         console.log(`********************************* NEW ROUND : ${this.game.round.roundNumber}/${game.round.roundNumber} **********************************************`);
       } else {
         console.log(`ROUND no: ${this.game.round.roundNumber}/${game.round.roundNumber}`);
       }
       this.game = new Game(game);
+      // Update the cached player info with the data from db
       if (this.detectChangeInPlayers(players)) {
         this.players = players.map(player => {
           const p = new Player(player);
@@ -92,8 +92,10 @@ export class GameService {
   }
   private publishAvailability(availability: Availability) {
     this.player.availability = availability;
-    if (this.player.name) {
-      this.savePlayer(this.player).subscribe();
+    const player = this.players$.value.find(p => p.id === this.player.id);
+    if (player) {
+      player.availability = availability;
+      this.savePlayer(player).subscribe();
     }
   }
   private detectChange(dbGame: Game, dbPlayers: Player[]) {
@@ -163,12 +165,12 @@ export class GameService {
     })
   }
   newGuess(word: string): Observable<boolean> {
-    console.log('Time:', this.db.getTimestamp(), this.game.round.startedAt.seconds)
     return new Observable((observer) => {
       if (this.game.round?.word.toLocaleLowerCase() === word.toLocaleLowerCase()) {
         console.log('Player wins')
       }
       this.player.guesses = [...this.player.guesses, word];
+      this.players$.next(this.players$.value);
       this.db.updatePlayer(this.player).subscribe(
         res => {
           console.log(res);

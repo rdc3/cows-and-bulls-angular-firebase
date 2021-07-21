@@ -26,6 +26,8 @@ export class AppComponent {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: any) {
     this.userAvailabilityService.goingOffline();
+    console.log(`Connection Lost: Game`, JSON.stringify(this.gameService?.game));
+    console.log(`Connection Lost: Player`, JSON.stringify(this.gameService?.player));
     this.chatService.sendMessage(`Connection Lost..`);
   }
   logout() {

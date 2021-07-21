@@ -7,10 +7,7 @@ import { GameState, Player } from '../models/types';
 })
 export class PlayerSelectorService {
 
-  // private allPlayers: Player[];
-  constructor(private gameService: GameService) {
-    // this.gameService.players$.subscribe(players => this.allPlayers = players);
-  }
+  constructor(private gameService: GameService) { }
   public nextRound() {
     console.log('starting nextRound', this.gameService.game);
     if (!this.gameService.game.round.yetToPlay || this.gameService.game.round.yetToPlay.length === 0) {
@@ -22,12 +19,9 @@ export class PlayerSelectorService {
 
   public nextPlayer() {
     if (this.gameService.game.round.yetToPlay?.length === 0) { this.nextRound(); }
-    // const random = Math.floor(Math.random() * this.gameService.game.round.yetToPlay.length);
     this.gameService.game.round!.startedAt = new Date();
     this.gameService.game.round!.turn = this.gameService.game.round.yetToPlay[0];
     this.gameService.game.round.yetToPlay.splice(0, 1);
-    // this.gameService.game.round.yetToPlay =
-    // this.gameService.game.round.yetToPlay = this.gameService.game.round.yetToPlay.filter(p => p.id !== this.gameService.game.round!.turn!.id)
     this.gameService.game.state = GameState.WaitingForNextWord;
     console.log('selecting next player', this.gameService.game);
     this.gameService.players$.value.forEach(player => {

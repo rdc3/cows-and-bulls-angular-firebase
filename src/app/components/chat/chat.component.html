@@ -1,8 +1,8 @@
 <mat-card class="example-card chat-container">
     <mat-card-header>
-        <mat-card-title>{{playerName}}</mat-card-title>
+        <mat-card-title class="chat-player-name">{{playerName}}</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content class="chat-content">
         <div #chatMessagesContainer class="chat-messages">
             <div *ngFor="let message of chatMessages">
                 <app-message-item [chatMessage]="message" [me]="message.by===playerName"></app-message-item>

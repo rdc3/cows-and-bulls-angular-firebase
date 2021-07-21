@@ -13,6 +13,7 @@ export class MessageItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('Chat:', this.chatMessage);
   }
 
 }

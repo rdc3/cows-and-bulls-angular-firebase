@@ -1,11 +1,4 @@
-// html,
-// body {
-//     width: 100%;
-//     height: 100%;
-//     display: flex;
-//     background: #000;
-//     overflow: hidden;
-// }
+@use 'sass:math';
 .loading-container {
   .g-number {
     position: absolute;
@@ -96,8 +89,7 @@
       animation: moveToTop
         #{random(1) +
         0.5}s
-        ease-in-out -#{random(5000) /
-        1000}s
+        ease-in-out -#{math.div(random(5000), 1000)}s
         infinite;
     }
   }

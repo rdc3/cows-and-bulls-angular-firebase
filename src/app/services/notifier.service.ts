@@ -8,9 +8,8 @@ import {
 })
 export class NotifierService {
 
-  constructor(
-    private snackBar: MatSnackBar
-  ) { }
+  constructor(private snackBar: MatSnackBar) { }
+
   popup(message: string, action: string) {
     console.log('Snackbar opened')
     this.snackBar.open(message, action, {
@@ -19,4 +18,14 @@ export class NotifierService {
       verticalPosition: 'top',
     });
   }
+
+  chatReceived(message: string) {
+    console.log('Incoming Chat notification')
+    this.snackBar.open(message, undefined, {
+      duration: 10000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+  }
+
 }

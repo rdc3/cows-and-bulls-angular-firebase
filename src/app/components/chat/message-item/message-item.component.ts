@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ChatMessage } from 'src/app/models/types';
 
 @Component({
@@ -6,14 +6,10 @@ import { ChatMessage } from 'src/app/models/types';
   templateUrl: './message-item.component.html',
   styleUrls: ['./message-item.component.scss']
 })
-export class MessageItemComponent implements OnInit {
+export class MessageItemComponent {
 
   @Input() chatMessage: ChatMessage;
   @Input() me: boolean;
   constructor() { }
-
-  ngOnInit(): void {
-    console.log('Chat:', this.chatMessage);
-  }
 
 }

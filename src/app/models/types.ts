@@ -123,6 +123,8 @@ export class GameRoom {
     id?: string;
     game: Game;
     players: Player[];
+    createdAt?: string;
+    modifiedAt?: string;
     constructor(game: Game | null, players: Player[] | null) {
         this.game = new Game(game);
         this.players = players?.map(p => new Player(p)) || [];

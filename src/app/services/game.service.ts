@@ -107,9 +107,6 @@ export class GameService {
   }
   public initGame(maxRounds: number, maxTime: number, maxWords: number) {
     console.log('Game:', this.game);
-    // if (this.game) {
-    //   this.db.deleteGame(this.game);
-    // }
     this.player.isModerator = true;
     let newGame = new Game(null);
     newGame.maxRounds = maxRounds;

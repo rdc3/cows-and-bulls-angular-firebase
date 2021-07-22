@@ -40,6 +40,7 @@ export class DbService {
     //   this.game$.next(new Game(g[0]));
     // });
     this.gameRooms$.subscribe((gr: GameRoom[]) => {
+      console.log('GameRoomUpdated:', gr);
       this.gameRoom = (gr?.length) ? new GameRoom(gr[0].game, gr[0].players) : new GameRoom(new Game(null), []);
       this.game$.next(this.gameRoom.game);
       this.players = this.gameRoom.players;
@@ -89,13 +90,12 @@ export class DbService {
     console.log('adding gameRoom:', gameRoom);
     return new Observable((observer) => {
       this.gameRoomsDBRef
-        .add(JSON.parse(JSON.stringify(gameRoom)))
+        .add({ ...JSON.parse(JSON.stringify(gameRoom)), createdAt: this.getTimestamp() })
         .then(_ => { observer.next(gameRoom.id); }, err => observer.error(JSON.stringify(err)));
     });
   }
   updateGame(game: Game) {
     console.log('updating Game', game);
-    // if (_.isEqual(this.game, game)) {
     if (this.game.equals(game)) {
       console.log(`No change in game. Not performing save.`, this.game, game);
       return of(true);
@@ -103,13 +103,12 @@ export class DbService {
     return new Observable((observer) => {
       this.gameDBRef
         .doc(game.id)
-        .set(JSON.parse(JSON.stringify(game)), { merge: true })
+        .set({ ...JSON.parse(JSON.stringify(game)), modifiedAt: this.getTimestamp() }, { merge: true })
         .then(res => { observer.next(res); }, err => observer.error(err));
     });
   }
   updateGameRoom(gameRoom: GameRoom) {
     console.log('updating GameRoom', gameRoom);
-    // if (_.isEqual(this.game, game)) {
     if (this.gameRoom.equals(gameRoom)) {
       console.log(`No change in game room. Not performing save.`, this.gameRoom, gameRoom);
       return of(true);
@@ -124,7 +123,7 @@ export class DbService {
   updatePlayer(player: Player) {
     console.log('updating Player', player);
     const oldPlayerData = this.players?.find(p => p.id === player.id);
-    if (_.isEqual(oldPlayerData, player)) {
+    if (oldPlayerData?.equals(player)) {
       console.log(`No change in player ${player.name}. Not performing save`, oldPlayerData, player);
       return of(true);
     }
@@ -162,7 +161,6 @@ export class DbService {
         .then(res => { observer.next(res); }, err => observer.error(err));
     });
   }
-
   clear() {
     this.players.map(p => { this.deletePlayer(p).subscribe() });
     this.deleteGame(this.game).subscribe();

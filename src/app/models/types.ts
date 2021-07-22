@@ -119,3 +119,25 @@ export enum Availability {
     offline,
     away
 }
+export class GameRoom {
+    id?: string;
+    game: Game;
+    players: Player[];
+    constructor(game: Game | null, players: Player[] | null) {
+        this.game = new Game(game);
+        this.players = players?.map(p => new Player(p)) || [];
+    }
+    public equals(gameRoom: GameRoom) {
+        let match = this.game.equals(gameRoom.game);
+        if (match) {
+            this.players.forEach(p1 => {
+                gameRoom.players.forEach(p2 => {
+                    if (p1.id === p2.id) {
+                        match = match && p1.equals(p2);
+                    }
+                })
+            });
+        }
+        return match;
+    }
+}

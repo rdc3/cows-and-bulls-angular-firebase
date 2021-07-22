@@ -1,4 +1,4 @@
-import { ChatMessage } from './../models/types';
+import { ChatMessage, GameRoom } from './../models/types';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -14,28 +14,36 @@ export class DbService {
   public players$: Observable<Player[]>;
   private games$: Observable<Game[]>;
   public game$: Subject<Game> = new Subject();
+  public gameRooms$: Observable<GameRoom[]>;
   private playersDBRef = this.store.collection(Consts.db_collection_player);
   private gameDBRef = this.store.collection(Consts.db_collection_game);
+  private gameRoomsDBRef = this.store.collection(Consts.db_collection_gameRooms);
   private chatDBRef = this.store.collection(Consts.db_collection_chat);
-  // private serverTimeOffsetRef = this.store.collection('serverTimeOffset');
   private players: Player[];
   private game: Game;
+  private gameRoom: GameRoom;
   public chat$: BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([]);
 
   constructor(private store: AngularFirestore) {
-    this.players$ = (this.playersDBRef.valueChanges({ idField: 'id' }) as Observable<Player[]>);
-    this.games$ = this.gameDBRef.valueChanges({ idField: 'id' }) as Observable<Game[]>;
-    // this.serverTimeOffsetRef.
+    // this.players$ = this.playersDBRef.valueChanges({ idField: 'id' }) as Observable<Player[]>;
+    // this.games$ = this.gameDBRef.valueChanges({ idField: 'id' }) as Observable<Game[]>;
+    this.gameRooms$ = this.gameRoomsDBRef.valueChanges({ idField: 'id' }) as Observable<GameRoom[]>;
+
     (this.chatDBRef.valueChanges({ idField: 'id' }) as Observable<ChatMessage[]>).subscribe((chat) => this.chat$.next(
       chat.sort((a, b) => {
         return a.at?.toMillis() < b.at?.toMillis() ? -1 : a.at?.toMillis() > b.at?.toMillis() ? 1 : 0
       })
     ))
-    this.players$.subscribe(players => this.players = players.map(p => new Player(p)));
-    this.games$.subscribe(g => {
-      this.game = (g?.length) ? new Game(g[0]) : new Game(null);
-      this.game$.next(new Game(g[0]));
-    });
+    // this.players$.subscribe(players => this.players = players.map(p => new Player(p)));
+    // this.games$.subscribe(g => {
+    //   this.game = (g?.length) ? new Game(g[0]) : new Game(null);
+    //   this.game$.next(new Game(g[0]));
+    // });
+    this.gameRooms$.subscribe((gr: GameRoom[]) => {
+      this.gameRoom = (gr?.length) ? new GameRoom(gr[0].game, gr[0].players) : new GameRoom(new Game(null), []);
+      this.game$.next(this.gameRoom.game);
+      this.players = this.gameRoom.players;
+    })
   }
   public getTimestamp(): any {
     return firebase.firestore.FieldValue.serverTimestamp();
@@ -76,6 +84,15 @@ export class DbService {
         .then(res => { observer.next(res); }, err => observer.error(err));
     });
   }
+  createGameRoom(gameRoom: GameRoom): Observable<string> {
+    if (!gameRoom.id) { gameRoom.id = this.store.createId(); }
+    console.log('adding gameRoom:', gameRoom);
+    return new Observable((observer) => {
+      this.gameRoomsDBRef
+        .add(JSON.parse(JSON.stringify(gameRoom)))
+        .then(_ => { observer.next(gameRoom.id); }, err => observer.error(JSON.stringify(err)));
+    });
+  }
   updateGame(game: Game) {
     console.log('updating Game', game);
     // if (_.isEqual(this.game, game)) {
@@ -87,6 +104,20 @@ export class DbService {
       this.gameDBRef
         .doc(game.id)
         .set(JSON.parse(JSON.stringify(game)), { merge: true })
+        .then(res => { observer.next(res); }, err => observer.error(err));
+    });
+  }
+  updateGameRoom(gameRoom: GameRoom) {
+    console.log('updating GameRoom', gameRoom);
+    // if (_.isEqual(this.game, game)) {
+    if (this.gameRoom.equals(gameRoom)) {
+      console.log(`No change in game room. Not performing save.`, this.gameRoom, gameRoom);
+      return of(true);
+    }
+    return new Observable((observer) => {
+      this.gameDBRef
+        .doc(gameRoom.id)
+        .set(JSON.parse(JSON.stringify(gameRoom)), { merge: true })
         .then(res => { observer.next(res); }, err => observer.error(err));
     });
   }
@@ -122,6 +153,16 @@ export class DbService {
         .then(res => { observer.next(res); }, err => observer.error(err));
     });
   }
+  deleteGameRoom(gameRoom: GameRoom) {
+    console.log('Deleting GameRoom', gameRoom);
+    return new Observable((observer) => {
+      this.gameDBRef
+        .doc(gameRoom.id)
+        .delete()
+        .then(res => { observer.next(res); }, err => observer.error(err));
+    });
+  }
+
   clear() {
     this.players.map(p => { this.deletePlayer(p).subscribe() });
     this.deleteGame(this.game).subscribe();

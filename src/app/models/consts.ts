@@ -1,6 +1,7 @@
 export class Consts {
     public static readonly db_collection_player = "Players";
     public static readonly db_collection_game = "Game";
+    public static readonly db_collection_gameRooms = "GameRooms";
     public static readonly db_collection_chat = "Chat";
     public static readonly route_joingame = "join";
     public static readonly route_game = "game";

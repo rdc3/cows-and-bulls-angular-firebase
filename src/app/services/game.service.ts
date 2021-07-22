@@ -1,11 +1,12 @@
 import { DbService } from './db.service';
 import { Injectable } from '@angular/core';
-import { Availability, Game, GameState, Player } from '../models/types';
+import { Availability, Game, GameRoom, GameState, Player } from '../models/types';
 import { Consts } from '../models/consts';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { NavigatorService } from './navigator.service';
 import { BehaviorSubject } from 'rxjs';
 import { UserAvailabilityService } from './user-availability.service';
+import firebase from 'firebase';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +19,8 @@ export class GameService {
   private players: Player[] = [];
   public wordlist: any;
   public addedInGame = false;
+  public gameRooms$: BehaviorSubject<GameRoom[]> = new BehaviorSubject<GameRoom[]>([]);
+  public gameRoom: GameRoom;
 
   constructor(private db: DbService, private navigator: NavigatorService, private availability: UserAvailabilityService) {
     this.availability.availability$.subscribe(availability => {
@@ -104,16 +107,16 @@ export class GameService {
   }
   public initGame(maxRounds: number, maxTime: number, maxWords: number) {
     console.log('Game:', this.game);
-    if (this.game) {
-      this.db.deleteGame(this.game);
-    }
+    // if (this.game) {
+    //   this.db.deleteGame(this.game);
+    // }
     this.player.isModerator = true;
     let newGame = new Game(null);
     newGame.maxRounds = maxRounds;
     newGame.timeLimitInMin = maxTime;
     newGame.maxWordsToGuess = maxWords;
     newGame.state = GameState.Created;
-    this.db.createGameDb(newGame).subscribe();
+    this.db.createGameRoom(new GameRoom(newGame, [])).subscribe((res: string) => console.log('Game Room created:', res));
     localStorage.setItem(Consts.localStorage_isModerator, `${this.player.isModerator}`);
   }
   public startGame() {
